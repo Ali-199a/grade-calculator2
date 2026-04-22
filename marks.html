@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة المعدل النهائي</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      min-height: 100vh;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 380px;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      text-align: center;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #1e3c72;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+      transition: 0.3s;
+      box-sizing: border-box;
+      font-family: Arial;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #2a5298;
+      box-shadow: 0 0 8px rgba(42,82,152,0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #2a5298, #1e3c72);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 18px;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .pass {
+      color: #0a7a2f;
+      background: #e6f7ea;
+    }
+
+    .fail {
+      color: #b00020;
+      background: #fde8e8;
+    }
+
+    .creator {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .box2 {
+      background: white;
+      width: 90%;
+      max-width: 380px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      animation: fly 1s ease-out forwards;
+    }
+
+    @keyframes fly {
+      0% { opacity: 1; transform: translate(0,0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); }
+    }
+
+    .disabled {
+      background: gray !important;
+      cursor: not-allowed !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="box">
+    <h2>📊 حساب المعدل النهائي</h2>
+
+    <input type="number" id="t1" placeholder="الفصل الأول (40%)">
+    <input type="number" id="t2" placeholder="الفصل الثاني (20%)">
+    <input type="number" id="t3" placeholder="الفصل الثالث (40%)">
+
+    <button onclick="calc()">احسب المعدل</button>
+
+    <div id="result"></div>
+
+    <div class="creator">صنع من علي عدنان</div>
+  </div>
+
+  <div class="box2">
+    <h3>💡 اقتراحات أو تطويرات</h3>
+
+    <form id="suggestForm" action="https://formsubmit.co/example@gmail.com" method="POST">
+      <input type="text" name="name" placeholder="اسمك" required>
+      <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+      <textarea name="message" rows="4" placeholder="اكتب اقتراحك هنا..." required></textarea>
+      <button type="submit">إرسال</button>
+    </form>
+
+    <div id="status" style="margin-top:10px;font-size:14px;"></div>
+  </div>
+
+  <script>
+    function createParticles() {
+      const box = document.getElementById("box");
+      for (let i = 0; i < 70; i++) {
+        let p = document.createElement("div");
+        p.classList.add("particle");
+
+        let x = (Math.random() - 0.5) * 200 + "px";
+        let y = (Math.random() - 0.5) * 200 + "px";
+
+        p.style.setProperty("--x", x);
+        p.style.setProperty("--y", y);
+
+        p.style.left = "50%";
+        p.style.top = "50%";
+
+        box.appendChild(p);
+
+        setTimeout(() => p.remove(), 1000);
+      }
+    }
+
+    function calc() {
+      let t1 = Number(document.getElementById("t1").value) || 0;
+      let t2 = Number(document.getElementById("t2").value) || 0;
+      let t3 = Number(document.getElementById("t3").value) || 0;
+
+      let base = (t1 * 0.4) + (t2 * 0.2);
+      let total = base + (t3 * 0.4);
+
+      let resultDiv = document.getElementById("result");
+
+      if (total < 60) {
+        let requiredT3 = (60 - base) / 0.4;
+        requiredT3 = Math.ceil(requiredT3 * 100) / 100;
+
+        resultDiv.className = "fail";
+
+        if (requiredT3 > 100) {
+          resultDiv.innerText = "F - راسب | المعدل: " + total.toFixed(2) + " | مستحيل تنجح حتى لو جبت 100";
+        } else if (requiredT3 <= 0) {
+          resultDiv.innerText = "F - راسب | المعدل: " + total.toFixed(2) + " | تحتاج 0 في الفصل الثالث للنجاح";
+        } else {
+          resultDiv.innerText = "F - راسب | المعدل: " + total.toFixed(2) + " | لازم تجيب " + requiredT3.toFixed(2) + " في الفصل الثالث حتى تنجح";
+        }
+      } else {
+        resultDiv.className = "pass";
+        resultDiv.innerText = "ناجح | المعدل: " + total.toFixed(2);
+        createParticles();
+      }
+    }
+
+    let sent = false;
+
+    document.getElementById("suggestForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const status = document.getElementById("status");
+      const btn = this.querySelector("button");
+
+      if (sent) return;
+
+      status.innerText = "جاري الإرسال...";
+      status.style.color = "#1e3c72";
+
+      try {
+        await fetch(this.action, {
+          method: "POST",
+          body: new FormData(this)
+        });
+
+        status.innerText = "تم إرسال الاقتراح شكراً لك ❤️";
+        status.style.color = "green";
+
+        btn.innerText = "تم الإرسال";
+        btn.disabled = true;
+        btn.classList.add("disabled");
+        btn.style.background = "gray";
+        btn.style.cursor = "not-allowed";
+
+        sent = true;
+        this.reset();
+
+      } catch (err) {
+        status.innerText = "فشل الإرسال، حاول مرة أخرى";
+        status.style.color = "red";
+      }
+    });
+  </script>
+
+</body>
+</html>
