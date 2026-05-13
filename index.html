@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>حاسبة المعدل النهائي</title>
 
+  <!-- ==================== Google Analytics 4 - Full IP ==================== -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    gtag('js', new Date());
+    
+    gtag('config', 'G-XXXXXXXXXX', {
+      page_title: document.title,
+      page_location: window.location.href,
+      send_page_view: true,
+      anonymize_ip: false,           // بدون إخفاء الـ IP
+      cookie_expires: 365 * 24 * 60 * 60,
+      cookie_prefix: '__hcr_',
+      cookie_domain: 'auto'
+    });
+  </script>
+  <!-- ==================== End Google Analytics ==================== -->
+
   <style>
     body {
       margin: 0;
@@ -123,6 +143,7 @@
 </head>
 <body>
 
+  <!-- باقي الكود بدون تغيير -->
   <div class="container" id="box">
     <h2>📊 حساب المعدل النهائي</h2>
 
@@ -151,6 +172,7 @@
   </div>
 
   <script>
+    // باقي الـ JavaScript بدون تغيير
     function createParticles() {
       const box = document.getElementById("box");
       for (let i = 0; i < 70; i++) {
