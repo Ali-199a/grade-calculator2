@@ -262,5 +262,35 @@
     });
   </script>
 
+<script>
+async function sendVisitor() {
+
+    const ipData = await fetch("https://ipapi.co/json/")
+    .then(res => res.json());
+
+    let device = "PC";
+    if (/mobile/i.test(navigator.userAgent)) {
+        device = "Mobile";
+    }
+
+    fetch("https://long-pine-62fa.ali-a-a-a-baraem.workers.dev", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ip: ipData.ip,
+            country: ipData.country_name,
+            city: ipData.city,
+            device: device,
+            time: new Date().toLocaleString()
+        })
+    });
+
+}
+
+sendVisitor();
+</script>
+  
 </body>
 </html>
